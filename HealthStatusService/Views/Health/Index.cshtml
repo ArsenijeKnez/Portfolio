@@ -1,0 +1,64 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Health status</title>
+
+    <style>
+        /* CSS for styling the bars */
+        .bar {
+            width: 10px;
+            height: 80px;
+            display: inline-block;
+            margin-right: 1px;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        /* CSS for formatting the graph */
+        .graph-container {
+            margin: 20px auto;
+            width: 50%; 
+            overflow-x: auto; /* Enable horizontal scrolling */
+            white-space: nowrap; /* Prevent line breaks */
+            text-align: left;
+            background-color:blanchedalmond;
+            padding: 10px
+        }
+
+        .graph-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body style="background-color:lightyellow">
+    <h2 style="text-align: center; font-family: Calibri; margin-top: 100px ">Availability percentage in last 24 hours: @String.Format("{0:0.000}", ViewBag.UptimePercentage)%</h2>
+    <h2 style="font-family: Calibri; text-align:center; margin-top: 100px">Availability in the last hour</h2>
+    <div class="graph-container" id="graphContainer">
+        @foreach (var healthCheck in ViewBag.HealthChecks) {
+            <div class="bar @(healthCheck.IsAlive ? "green" : "red")"></div>
+        }
+    </div>
+
+    <script>
+        // Scroll to the rightmost position when the page is loaded
+        window.onload = function() {
+            var graphContainer = document.getElementById("graphContainer");
+            graphContainer.scrollLeft = graphContainer.scrollWidth;
+        };
+    </script>
+</body>
+</html>
